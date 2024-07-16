@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ReservationService"
+    targetNamespace="http://www.metasticworld.com/reservation"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://www.metasticworld.com/reservation"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <types>
+        <xsd:schema targetNamespace="http://www.metasticworld.com/reservation">
+            <xsd:element name="OTA_HotelResNotifRQ">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="HotelReservations" type="tns:HotelReservationsType"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="OTA_HotelResNotifRS">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="status" type="xsd:string"/>
+                        <xsd:element name="message" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="HotelReservationsType">
+                <xsd:sequence>
+                    <xsd:element name="HotelReservation" type="tns:HotelReservationType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="HotelReservationType">
+                <xsd:sequence>
+                    <xsd:element name="ResStatus" type="xsd:string"/>
+                    <xsd:element name="UniqueID" type="tns:UniqueIDType"/>
+                    <xsd:element name="RoomStay" type="tns:RoomStayType"/>
+                    <xsd:element name="ResGuests" type="tns:ResGuestsType"/>
+                    <xsd:element name="TimeSpan" type="tns:TimeSpanType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="UniqueIDType">
+                <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="RoomStayType">
+                <xsd:sequence>
+                    <xsd:element name="RoomTypes" type="tns:RoomTypesType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="RoomTypesType">
+                <xsd:sequence>
+                    <xsd:element name="RoomType" type="tns:RoomTypeType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="RoomTypeType">
+                <xsd:sequence>
+                    <xsd:element name="RoomTypeCode" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ResGuestsType">
+                <xsd:sequence>
+                    <xsd:element name="ResGuest" type="tns:ResGuestType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ResGuestType">
+                <xsd:sequence>
+                    <xsd:element name="GuestCounts" type="tns:GuestCountsType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="GuestCountsType">
+                <xsd:sequence>
+                    <xsd:element name="GuestCount" type="tns:GuestCountType"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="GuestCountType">
+                <xsd:sequence>
+                    <xsd:element name="Count" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="TimeSpanType">
+                <xsd:sequence>
+                    <xsd:element name="Start" type="xsd:string"/>
+                    <xsd:element name="End" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+
+    <message name="OTA_HotelResNotifRQ">
+        <part name="parameters" element="tns:OTA_HotelResNotifRQ"/>
+    </message>
+    <message name="OTA_HotelResNotifRS">
+        <part name="parameters" element="tns:OTA_HotelResNotifRS"/>
+    </message>
+
+    <portType name="ReservationPortType">
+        <operation name="OTA_HotelResNotifRQ">
+            <input message="tns:OTA_HotelResNotifRQ"/>
+            <output message="tns:OTA_HotelResNotifRS"/>
+        </operation>
+    </portType>
+
+    <binding name="ReservationBinding" type="tns:ReservationPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="OTA_HotelResNotifRQ">
+            <soap:operation soapAction="http://www.metasticworld.com/reservation/OTA_HotelResNotifRQ"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ReservationService">
+        <documentation>Reservation Service</documentation>
+        <port name="ReservationPort" binding="tns:ReservationBinding">
+            <soap:address location="http://localhost:3000/api/reservation"/>
+        </port>
+    </service>
+</definitions>
